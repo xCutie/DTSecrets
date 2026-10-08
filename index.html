@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>You've been Hacked!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#05070a; --alarm:#ff2a4d; --alarm-dim:#5a0f1c;
+  --ok:#2dffa0; --ok-dim:#0c3a29; --ice:#7fe9ff; --ink:#d7e2ea;
+  --display:'VT323','Courier New',monospace;
+  --body:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-snap-type:y proximity;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--void);color:var(--ink);font-family:var(--body);line-height:1.6}
+
+section{
+  min-height:100vh;min-height:100svh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:4rem 1.5rem;scroll-snap-align:start;
+}
+/* scanlines */
+section::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.28) 2px 3px);
+}
+.content{position:relative;z-index:2;max-width:46rem}
+
+/* ---------- ALARM ---------- */
+#hacked{background:radial-gradient(ellipse at center,#1a0509 0%,var(--void) 70%)}
+#rain{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.glitch{
+  font-family:var(--display);font-weight:400;color:var(--alarm);
+  font-size:clamp(3rem,10vw,7.5rem);line-height:.95;margin:0 0 1.5rem;
+  text-shadow:0 0 18px rgba(255,42,77,.55);position:relative;
+}
+.glitch span{display:block}
+.glitch .pop{color:#fff;text-shadow:0 0 22px var(--alarm),0 0 60px var(--alarm)}
+.glitch{animation:jolt 5s steps(1) infinite}
+@keyframes jolt{
+  0%,92%,100%{transform:none;text-shadow:0 0 18px rgba(255,42,77,.55)}
+  93%{transform:translate(-4px,2px);text-shadow:5px 0 var(--ice),-5px 0 var(--alarm)}
+  95%{transform:translate(5px,-2px);text-shadow:-5px 0 var(--ice),5px 0 var(--alarm)}
+  97%{transform:translate(-2px,0);text-shadow:3px 0 var(--ice),-3px 0 var(--alarm)}
+}
+.chance{
+  font-size:clamp(1rem,2.6vw,1.35rem);color:var(--ink);margin:0;
+  border:1px solid var(--alarm-dim);background:rgba(90,15,28,.35);
+  padding:.9rem 1.4rem;
+}
+.scroll{
+  position:absolute;bottom:max(1.5rem,env(safe-area-inset-bottom,0px));left:50%;z-index:2;
+  transform:translateX(-50%);color:var(--alarm);font-family:var(--display);font-size:1.6rem;
+  animation:bob 1.6s ease-in-out infinite;
+}
+@keyframes bob{50%{transform:translate(-50%,10px)}}
+.cursor{display:inline-block;width:.55em;height:1em;background:var(--alarm);vertical-align:-.12em;margin-left:.15em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- RESOLVED ---------- */
+#wake{
+  background:
+    linear-gradient(rgba(45,255,160,.05) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,rgba(45,255,160,.05) 1px,transparent 1px) 0 0/48px 48px,
+    radial-gradient(ellipse at center,#06241a 0%,var(--void) 72%);
+}
+#wake h2{
+  font-family:var(--display);font-weight:400;color:var(--ok);
+  font-size:clamp(2.6rem,8vw,5.6rem);line-height:1;margin:0 0 2rem;
+  text-shadow:0 0 20px rgba(45,255,160,.4);
+}
+.vigil{font-size:clamp(1rem,2.4vw,1.3rem);margin:0 0 2.5rem}
+.vigil strong{color:var(--ice);font-weight:600}
+blockquote{
+  margin:0;padding:1.2rem 1.5rem;text-align:left;
+  border-left:4px solid var(--ok);background:rgba(12,58,41,.45);
+  font-size:clamp(.9rem,2vw,1.05rem);
+}
+blockquote b{color:var(--ok);font-weight:600}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){
+  .glitch,.scroll,.cursor{animation:none}
+  html{scroll-snap-type:none}
+}
+</style>
+</head>
+<body>
+
+<section id="hacked">
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <div class="content">
+    <h1 class="glitch">
+      <span>AH HA!</span>
+      <span class="pop">Caught ’cha!</span>
+      <span>You’ve been Hacked!<i class="cursor" aria-hidden="true"></i></span>
+    </h1>
+    <p class="chance">Don’t say I no give chance!<br>Scroll down to see how to resolve!</p>
+  </div>
+  <div class="scroll" aria-hidden="true">&#9660;</div>
+</section>
+
+<section id="wake">
+  <div class="content">
+    <h2>Hacked? HA! Wake up!<br>We are in C&amp;C’s Dinner &amp; Dance 2026</h2>
+    <p class="vigil">But please be vigilant lah!!<br>Don’t anyhow go scan a QR code from unknown sources!!</p>
+    <blockquote>
+      According to <b>C&amp;C AUP 8.3.1</b> Users should not scan QR codes from any unknown sources as they may contain links to malicious web sites.
+    </blockquote>
+  </div>
+</section>
+
+<script>
+(function(){
+  var c=document.getElementById('rain'),x=c.getContext('2d');
+  var chars='01ABCDEF<>/\\{}$#%@!?'.split(''),size=16,cols,drops;
+  function fit(){
+    var s=document.getElementById('hacked');
+    c.width=s.clientWidth;c.height=s.clientHeight;
+    cols=Math.ceil(c.width/size);
+    drops=[];for(var i=0;i<cols;i++)drops.push(Math.random()*-40);
+  }
+  function draw(){
+    x.fillStyle='rgba(5,7,10,.12)';x.fillRect(0,0,c.width,c.height);
+    x.font=size+'px monospace';
+    for(var i=0;i<cols;i++){
+      x.fillStyle=Math.random()>.97?'#ffffff':'#ff2a4d';
+      x.fillText(chars[Math.floor(Math.random()*chars.length)],i*size,drops[i]*size);
+      if(drops[i]*size>c.height&&Math.random()>.975)drops[i]=0;
+      drops[i]+=.6;
+    }
+  }
+  fit();window.addEventListener('resize',fit);
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){setInterval(draw,50);}
+})();
+</script>
+</body>
+</html>
